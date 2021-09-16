@@ -69,8 +69,14 @@ public class CDSPluginTest {
             subDir = "lib" + sep;
         }
         subDir += "server" + sep;
-        helper.checkImage(image, module, null, null,
-                          new String[] { subDir + "classes.jsa", subDir + "classes_nocoops.jsa" });
+
+        if (Platform.isAArch64() || Platform.isX64()) {
+            helper.checkImage(image, module, null, null,
+                      new String[] { subDir + "classes.jsa", subDir + "classes_nocoops.jsa" });
+        } else {
+            helper.checkImage(image, module, null, null,
+                      new String[] { subDir + "classes.jsa" });
+        }
 
        // Simulate different platforms between current runtime and target image.
        if (Platform.isLinux()) {
